@@ -1,0 +1,6 @@
+projectKey=architect
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=architect
+ceTaskId=375284f8-36d9-468d-835f-b27825eefe58
+ceTaskUrl=http://localhost:9000/api/ce/task?id=375284f8-36d9-468d-835f-b27825eefe58
