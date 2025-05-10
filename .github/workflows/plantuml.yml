@@ -37,12 +37,31 @@ jobs:
           echo "Generated files in docs:"
           ls -la docs
 
+      - name: Create timestamped .txt file
+        run: |
+          timestamp=$(date +%Y%m%d%H%M%S)
+          txt_file="docs/render_log_${timestamp}.txt"
+          echo "Render completed at ${timestamp}" > $txt_file
+          echo "Log saved as $txt_file"
+
+      - name: Clean up old .txt files
+        run: |
+          # Считаем количество .txt файлов в папке docs
+          txt_files_count=$(ls docs/*.txt 2>/dev/null | wc -l)
+          if [ "$txt_files_count" -gt 1 ]; then
+            # Удаляем все файлы, кроме самого нового
+            echo "Found $txt_files_count .txt files, deleting old ones"
+            ls -t docs/*.txt | tail -n +2 | xargs rm
+          else
+            echo "Only one .txt file found, no need to delete."
+          fi
+
       - name: Commit and push rendered diagrams
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add docs/*.svg || echo "No SVGs to add"
-          git commit -m "Auto-render PlantUML diagrams" || echo "Nothing to commit"
+          git add docs/*.svg docs/*.txt || echo "No SVGs or logs to add"
+          git commit -m "Auto-render PlantUML diagrams and log" || echo "Nothing to commit"
           git push origin search
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
