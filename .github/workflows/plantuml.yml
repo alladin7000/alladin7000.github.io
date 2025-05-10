@@ -1,56 +1,48 @@
-name: Render PlantUML Diagrams
+name: Render PlantUML diagrams
 
 on:
   push:
-    branches:
-      - search
-  pull_request:
-    branches:
-      - search
+    paths:
+      - 'diagrams/**/*.puml'
+      - '.github/workflows/render-puml.yml'
+  workflow_dispatch:
 
 jobs:
-  render_diagrams:
+  render:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'zulu'
+      - name: Set up Java 17 (Zulu)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
-    - name: Install Graphviz
-      run: sudo apt-get install -y graphviz
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
 
-    - name: Download PlantUML JAR
-      run: |
-        curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025.2/plantuml-1.2025.2.jar
-        echo "Downloaded plantuml.jar:"
-        ls -la plantuml.jar
+      - name: Download PlantUML JAR
+        run: curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025.2/plantuml-1.2025.2.jar
 
-    - name: Render diagrams to docs/
-      run: |
-        mkdir -p docs
-        for file in $(find . -name '*.puml'); do
-          filename=$(basename "$file" .puml)
-          echo "Rendering $file"
-          java -jar plantuml.jar -tsvg "$file" -o docs || echo "Error rendering $file"
-        done
-        echo "Generated files in docs directory:"
-        ls -la docs
+      - name: Render diagrams to SVG
+        run: |
+          mkdir -p docs
+          find diagrams -name '*.puml' | while read file; do
+            echo "Rendering $file"
+            java -jar plantuml.jar -tsvg "$file" -o ../docs
+          done
+          echo "Generated files in docs:"
+          ls -la docs
 
-    - name: Check generated files in docs/
-      run: |
-        echo "Checking docs directory contents:"
-        ls -la docs/
-
-    - name: Commit and push generated diagrams
-      run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
-        git add docs/*.svg
-        git commit -m "Auto-render PlantUML diagrams" || echo "Nothing to commit"
-        git push origin search
+      - name: Commit and push rendered diagrams
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/*.svg || echo "No SVGs to add"
+          git commit -m "Auto-render PlantUML diagrams" || echo "Nothing to commit"
+          git push origin search
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
