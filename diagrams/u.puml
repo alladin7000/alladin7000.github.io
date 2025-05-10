@@ -1,0 +1,41 @@
+@startuml "Banking System - Core Use Cases"
+
+skinparam usecase {
+  BackgroundColor lightskyblue
+  BorderColor darkblue
+  ArrowColor darkblue
+  ActorBorderColor darkblue
+  ActorBackgroundColor white
+}
+
+skinparam rectangle {
+  BackgroundColor aliceblue
+  BorderColor darkblue
+}
+
+left to right direction
+
+actor "Customer" as cust
+actor "Bank Staff" as staff
+
+rectangle "Banking System" {
+  usecase "Check Balance" as UC1
+  usecase "Withdraw Money" as UC2
+  usecase "Deposit Money" as UC3
+  usecase "Transfer Funds" as UC4
+  usecase "View Transactions" as UC5
+  usecase "Manage Accounts" as UC6
+}
+
+cust --> UC1
+cust --> UC2
+cust --> UC3
+cust --> UC4
+cust --> UC5
+
+staff --> UC1
+staff --> UC2
+staff --> UC3
+staff --> UC6
+
+@enduml
