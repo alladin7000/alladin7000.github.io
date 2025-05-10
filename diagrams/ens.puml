@@ -1,9 +1,0 @@
-@startuml
-[*] --> Closed
-
-Closed -right-> Open : open()
-Open -left-> Closed : close()
-
-Closed -down-> Locked : lock()
-Locked -up-> Closed : unlock()
-@enduml
