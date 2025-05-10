@@ -1,0 +1,17 @@
+@startuml
+node "Web Server" {
+  component "Frontend"
+}
+
+node "App Server" {
+  component "Support Service"
+}
+
+node "DB Server" {
+  database "TicketDB"
+}
+
+"Frontend" --> "Support Service"
+"Support Service" --> "TicketDB"
+@enduml
+
