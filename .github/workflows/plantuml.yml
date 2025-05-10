@@ -20,11 +20,13 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'zulu'  # Используем поддерживаемое значение
+        distribution: 'zulu'
 
     - name: Download PlantUML JAR
       run: |
-        curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025/plantuml-1.2025.jar
+        curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025.2/plantuml-1.2025.2.jar
+        echo "Downloaded plantuml.jar:"
+        ls -la plantuml.jar
 
     - name: Render diagrams to docs/
       run: |
@@ -35,7 +37,7 @@ jobs:
           java -jar plantuml.jar -tsvg "$file" -o docs || echo "Error rendering $file"
         done
         echo "Generated files in docs directory:"
-        ls -la docs  # Проверьте, что файлы действительно есть
+        ls -la docs
 
     - name: Commit and push generated diagrams
       run: |
