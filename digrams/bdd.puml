@@ -1,0 +1,18 @@
+@startuml
+start
+
+:User Story;
+:Exploration;
+:Planning;
+:Automation;
+:Working Software;
+
+--> :User Story;
+:Exploration;
+:Planning;
+:Automation;
+:Working Software;
+--> :User Story;
+
+stop
+@enduml

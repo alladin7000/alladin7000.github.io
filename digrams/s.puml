@@ -1,0 +1,19 @@
+@startuml
+actor Customer
+participant "Support System" as System
+participant "SupportAgent"
+
+Customer -> System : Submit Ticket
+activate System
+
+System -> SupportAgent : Assign Ticket
+activate SupportAgent
+
+SupportAgent -> System : Respond
+deactivate SupportAgent
+activate System
+
+System -> Customer : Send Response
+deactivate System
+@enduml
+

@@ -1,0 +1,10 @@
+@startuml
+package "Bank Support App" {
+  [Web Frontend]
+  [Ticketing Service]
+  [Notification Service]
+}
+
+[Web Frontend] --> [Ticketing Service]
+[Ticketing Service] --> [Notification Service]
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+object user1 {
+  name = "Alice"
+  email = "alice@example.com"
+}
+
+object admin1 {
+  name = "Bob"
+  email = "bob@admin.com"
+}
+
+user1 --> admin1 : reports to
+@enduml
+object system {
+    name = "System"
+    description = "Handles user and admin interactions"
+}
+
+admin1 --> system : manages
+user1 --> system : interacts with

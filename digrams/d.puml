@@ -1,0 +1,14 @@
+@startuml
+class User {
+  +String name
+  +String email
+  +login()
+  +logout()
+}
+
+class Admin {
+  +banUser(User user)
+}
+
+User <|-- Admin
+@enduml
