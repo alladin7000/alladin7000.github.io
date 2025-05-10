@@ -14,7 +14,6 @@ activate SupportAgent
 System -> SupportAgent : Assign Tickets and Notify User to see 
 activate SupportAgent
 
-SupportAgent -> System : RespondLGFLJKGFJLKFGDJLK
 deactivate SupportAgent
 activate SystemSystem
 
