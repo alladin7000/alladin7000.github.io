@@ -20,6 +20,8 @@ deactivate SupportAgent
 else
 System -> SupportAgent : Assign Ticket Some Details
 activate SystemSystem
+System -> SupportAgent : Assign Tickets and Notify User to see 
+activate SupportAgent
 end
 System -> Customer : Send Response
 deactivate System
