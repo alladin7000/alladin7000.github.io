@@ -27,7 +27,7 @@ jobs:
         run: |
           curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/latest/download/plantuml-1.2024.4.jar
 
-      - name: Render PUML diagrams to SVG
+      - name: Render PUML diagrams to SVG in docs/
         run: |
           mkdir -p docs
           find . -name '*.puml' | while read -r file; do
@@ -35,8 +35,8 @@ jobs:
             java -jar plantuml.jar -tsvg "$file" -o docs
           done
 
-      - name: Upload rendered diagrams
-        uses: actions/upload-artifact@v3
+      - name: Upload rendered diagrams as artifact
+        uses: actions/upload-artifact@v4
         with:
           name: rendered-diagrams
           path: 'docs/*.svg'
