@@ -16,7 +16,7 @@ activate SupportAgent
 
 SupportAgent -> System : Respond
 deactivate SupportAgent
-activate System
+activate SystemSystem
 
 System -> Customer : Send Response
 deactivate System
