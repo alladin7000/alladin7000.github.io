@@ -43,6 +43,7 @@ jobs:
           txt_file="docs/render_log_${timestamp}.txt"
           echo "Render completed at ${timestamp}" > $txt_file
           echo "Log saved as $txt_file"
+          ls -la docs  # Добавим вывод файлов в docs, чтобы удостовериться, что файл создан
 
       - name: Clean up old .txt files
         run: |
@@ -55,6 +56,7 @@ jobs:
           else
             echo "Only one .txt file found, no need to delete."
           fi
+          ls -la docs  # Выводим содержимое папки docs после очистки
 
       - name: Commit and push rendered diagrams
         run: |
