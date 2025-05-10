@@ -3,7 +3,7 @@ name: Generate and Update PlantUML Diagrams
 on:
   push:
     branches:
-      - main  # замените, если используете другую ветку
+      - search  
 
 jobs:
   build-diagrams:
