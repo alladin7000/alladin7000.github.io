@@ -17,6 +17,8 @@ System --> SupportAgent : Assign Ticket Some Details
 alt
 System --> SupportAgent : Assign Ticket Some Details
 deactivate SupportAgent
+else
+System -> SupportAgent : Assign Ticket Some Details
 activate SystemSystem
 end
 System -> Customer : Send Response
