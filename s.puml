@@ -8,7 +8,8 @@ activate System
 
 System -> SupportAgent : Assign Ticket
 activate SupportAgent
-
+System -> SupportAgent : Notify
+deactivate System
 SupportAgent -> System : Respond
 deactivate SupportAgent
 activate System
