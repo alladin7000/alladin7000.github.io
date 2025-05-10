@@ -1,0 +1,12 @@
+@startuml
+start
+:Submit Support Ticket;
+:Assign to Agent;
+:Agent Responds;
+if (Issue Resolved?) then (yes)
+  :Close Ticket;
+else (no)
+  :Escalate;
+endif
+stop
+@enduml
