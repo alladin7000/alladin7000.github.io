@@ -1,45 +1,48 @@
-name: Generate and Update PlantUML Diagrams
+name: Render PlantUML diagrams
 
 on:
   push:
-    branches:
-      - search  # замените, если используете другую ветку
+    paths:
+      - 'diagrams/**/*.puml'
+      - '.github/workflows/render-puml.yml'
+  workflow_dispatch:
 
 jobs:
-  build-diagrams:
+  render:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Set up Java 17 (Zulu)
         uses: actions/setup-java@v3
         with:
+          distribution: 'zulu'
           java-version: '17'
 
-      - name: Download PlantUML
-        run: |
-          curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
 
-      - name: Remove old SVGs matching PUMLs
+      - name: Download PlantUML JAR
+        run: curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2025.2/plantuml-1.2025.2.jar
+
+      - name: Render diagrams to SVG
         run: |
+          mkdir -p docs
           find diagrams -name '*.puml' | while read file; do
-            svg="${file%.puml}.svg"
-            if [ -f "$svg" ]; then
-              echo "Removing old SVG: $svg"
-              rm "$svg"
-            fi
+            echo "Rendering $file"
+            java -jar plantuml.jar -tsvg "$file" -o ../docs
           done
+          echo "Generated files in docs:"
+          ls -la docs
 
-      - name: Generate SVGs from PUMLs
+      - name: Commit and push rendered diagrams
         run: |
-          java -jar plantuml.jar -tsvg diagrams/*.puml
-
-      - name: Commit and push updated SVGs
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git add diagrams/*.svg
-          git commit -m "Auto-update SVGs from PUML files" || echo "No changes to commit"
-          git push
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add docs/*.svg || echo "No SVGs to add"
+          git commit -m "Auto-render PlantUML diagrams" || echo "Nothing to commit"
+          git push origin search
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
