@@ -42,6 +42,11 @@ jobs:
         echo "Generated files in docs directory:"
         ls -la docs
 
+    - name: Check generated files in docs/
+      run: |
+        echo "Checking docs directory contents:"
+        ls -la docs/
+
     - name: Commit and push generated diagrams
       run: |
         git config --global user.name "github-actions"
