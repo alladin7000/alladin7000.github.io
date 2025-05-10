@@ -9,6 +9,9 @@ activate System
 System -> SupportAgent : Assign Ticket
 activate SupportAgent
 
+System -> SupportAgent : Assign Tickets and Notify
+activate SupportAgent
+
 SupportAgent -> System : Respond
 deactivate SupportAgent
 activate System
