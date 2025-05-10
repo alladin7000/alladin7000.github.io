@@ -1,53 +1,42 @@
-name: Render PlantUML and Deploy to GitHub Pages
+name: Render PlantUML diagrams
 
 on:
   push:
-    branches: [ main ]
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+    paths:
+      - '**.puml'
+  workflow_dispatch:
 
 jobs:
-  build:
+  render:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Install PlantUML
-        run: sudo apt-get install -y plantuml graphviz
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
 
-      - name: Generate SVGs
+      - name: Download PlantUML jar
         run: |
-          mkdir -p public/diagrams
-          for file in diagrams/*.puml; do
-            plantuml -tsvg "$file" -o ../public/diagrams
+          curl -L -o plantuml.jar https://github.com/plantuml/plantuml/releases/latest/download/plantuml-1.2024.4.jar
+
+      - name: Render PUML diagrams to SVG
+        run: |
+          mkdir -p docs
+          find . -name '*.puml' | while read -r file; do
+            filename=$(basename "$file" .puml)
+            java -jar plantuml.jar -tsvg "$file" -o docs
           done
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload rendered diagrams
+        uses: actions/upload-artifact@v3
         with:
-          path: public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          name: rendered-diagrams
+          path: 'docs/*.svg'
