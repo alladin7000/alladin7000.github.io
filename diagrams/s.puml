@@ -2,6 +2,8 @@
 actor Customer
 participant "Support System" as System
 participant "SupportAgent"
+participant "Support Ticket" as Ticket
+Customer -> System : Create Ticket
 
 Customer -> System : Submit Ticket
 activate System
@@ -9,7 +11,7 @@ activate System
 System -> SupportAgent : Assign Ticket
 activate SupportAgent
 
-System -> SupportAgent : Assign Tickets and Notify
+System -> SupportAgent : Assign Tickets and Notify User to see 
 activate SupportAgent
 
 SupportAgent -> System : Respond
