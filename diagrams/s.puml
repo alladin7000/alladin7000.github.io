@@ -4,7 +4,7 @@ participant "Support System" as System
 participant "SupportAgent"
 participant "Support Ticket" as Ticket
 Customer -> System : Create Ticket
-
+Ticket -> System : Create Ticket
 Customer -> System : Submit Ticket
 activate System
 
