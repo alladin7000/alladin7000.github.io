@@ -14,9 +14,11 @@ activate SupportAgent
 System -> SupportAgent : Assign Tickets and Notify User to see 
 activate SupportAgent
 System --> SupportAgent : Assign Ticket Some Details
+alt
+System --> SupportAgent : Assign Ticket Some Details
 deactivate SupportAgent
 activate SystemSystem
-
+end
 System -> Customer : Send Response
 deactivate System
 @enduml
