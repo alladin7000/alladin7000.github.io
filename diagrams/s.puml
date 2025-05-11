@@ -8,7 +8,7 @@ Ticket -> System : Create Ticket
 Customer -> System : Submit Ticket
 activate System
 
-System -> SupportAgent : Assign Ticket
+System -> SupportAgent : Assign Ticket  to SupportAgent
 activate SupportAgent
 
 System -> SupportAgent : Assign Tickets and Notify User to see 
