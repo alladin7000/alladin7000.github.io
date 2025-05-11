@@ -11,7 +11,7 @@ activate System
 System -> SupportAgent : Assign Ticket  to SupportAgent
 activate SupportAgent
 
-System -> SupportAgent : Assign Tickets and Notify User to see 
+System -> SupportAgent : Assign Tickets and Notify User to see SOME DETAILS 
 activate SupportAgent
 System --> SupportAgent : Assign Ticket Some Details
 alt
