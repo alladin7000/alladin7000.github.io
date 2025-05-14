@@ -7,7 +7,7 @@ participant "Reseller UI" as reseller_ui
 
 user -> browser : Visit the Reseller UI login page
 browser -> reseller_ui : Retrieve the Reseller UI login page
-browser <- reseller_ui : Return the login page with form field \nusername, password, and One Time Password(OTP)
+browser <- reseller_ui : Return the login page with form field \nusername, password, and One Time Password(OTP)  LJHK;GFLJK;HGEDSJOKL;RF
 user <- browser : Display the page, wait for user input
 user -> user: Recall username and password \nfrom memory
 user -> browser : Fill in the username and password field
