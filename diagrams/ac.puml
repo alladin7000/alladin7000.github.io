@@ -3,6 +3,7 @@ start
 :Submit Support Ticket;
 :Assign to Agent;
 :Agent Responds;
+:Agent Investigates;
 if (Issue Resolved?) then (yes)
   :Close Ticket;
 else (no)
