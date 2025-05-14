@@ -43,7 +43,7 @@ jobs:
           txt_file="docs/render_log_${timestamp}.txt"
           echo "Render completed at ${timestamp}" > $txt_file
           echo "Log saved as $txt_file"
-          ls -la docs  # Добавим вывод файлов в docs, чтобы удостовериться, что файл создан
+          ls -la docs  
 
       - name: Clean up old .txt files
         run: |
